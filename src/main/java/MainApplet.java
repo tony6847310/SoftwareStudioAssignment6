@@ -1,6 +1,8 @@
 package main.java;
 
 import processing.core.PApplet;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 
 /**
 * This class is for sketching outcome using Processing
@@ -12,6 +14,12 @@ public class MainApplet extends PApplet{
 	private String file = "starwars-episode-1-interactions.json";
 	
 	private final static int width = 1200, height = 650;
+	/* 
+	 * Modified by Tony
+	 */
+	private JSONObject ep1;
+	private JSONArray ep1_nodes;
+	private JSONArray ep1_links;
 	
 	public void setup() {
 
@@ -22,11 +30,13 @@ public class MainApplet extends PApplet{
 	}
 
 	public void draw() {
-
+		
 	}
 
 	private void loadData(){
-
+		ep1 = loadJSONObject(path + file);
+		ep1_nodes = ep1.getJSONArray("nodes");
+		ep1_links = ep1.getJSONArray("links");
 	}
 
 }
