@@ -7,6 +7,7 @@ import controlP5.ControlP5;
 import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
 
+import java.awt.event.KeyEvent;
 import java.util.*;
 
 /**
@@ -49,13 +50,13 @@ public class MainApplet extends PApplet{
 		background(255);
 		//draw the circle
 		fill(255);
-		stroke(38, 58, 109);
+		stroke(83, 198, 140);
 		strokeWeight(5);
 		ellipse(575, 340, 520, 520);
 		//display text
 		fill(100, 50, 25);
-		textSize(26);
-		text("Star Wars episode" + Integer.toString(episode), 450, 70);
+		textSize(30);
+		text("Star Wars episode" + Integer.toString(episode), 440, 55);
 		//draw character nodes
 		for(Character c: this.characters){
 			c.display();
@@ -80,7 +81,7 @@ public class MainApplet extends PApplet{
 			int color = unhex(node.getString("colour").substring(1));
 			//convert hex string to int
 			characters.add(new Character(this, node.getString("name"), color, i%4*60 +50, i/4*60 + 50));
-			//add 4 character each row
+			//add 4 characters each row
 		}
 		
 		for(int i=0; i<links[episode].size(); i++){
@@ -89,7 +90,26 @@ public class MainApplet extends PApplet{
 			//record scenes between each character
 		}
 	}
-
+	
+	public void keyPressed(){
+		if(keyCode == KeyEvent.VK_1)
+			episode = 1;
+		else if(keyCode == KeyEvent.VK_2)
+			episode = 2;
+		else if(keyCode == KeyEvent.VK_3)
+			episode = 3;
+		else if(keyCode == KeyEvent.VK_4)
+			episode = 4;
+		else if(keyCode == KeyEvent.VK_5)
+			episode = 5;
+		else if(keyCode == KeyEvent.VK_6)
+			episode = 6;
+		else if(keyCode == KeyEvent.VK_7)
+			episode = 7;
+		
+		loadEpisode();
+	}
+	
 	public void addAll() {
 		for(Character c: characters) {
 			c.activate(true);
