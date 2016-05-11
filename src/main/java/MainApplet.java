@@ -5,6 +5,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 import controlP5.ControlP5;
 import ddf.minim.Minim;
+import ddf.minim.AudioPlayer;
 import de.looksgood.ani.Ani;
 import java.awt.event.KeyEvent;
 
@@ -31,6 +32,7 @@ public class MainApplet extends PApplet {
 	private boolean pointingnode;
 	private Character pointednode, pointingnodebutpressed;
 	private Minim mn;
+    private AudioPlayer bgm;
 	private ControlP5 cp;
 	private Ani ani;
 	
@@ -45,6 +47,9 @@ public class MainApplet extends PApplet {
 		cp.addButton("addAll").setPosition(900, 100).setSize(200, 75).setLabel("Add all");
 		cp.addButton("clear").setPosition(900, 200).setSize(200, 75).setLabel("Clear");
 		Ani.init(this);
+        mn = new Minim(this);
+        bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
+        bgm.play();
 	}
 
 	public void draw() {
@@ -155,20 +160,26 @@ public class MainApplet extends PApplet {
 		}
 		//rearrange();
 	}
-	
+	// mouse pressed
 	public void mousePressed(){
+		// if the mouse is on the node, set a pressed node.
 		if(pointingnode)
 			pointednode = pointingnodebutpressed;
 	}
-	
+	// mouse dragged
 	public void mouseDragged(){
+		// if there is a node be pressed, set it's position equal to mouse's position.
 		if(pointednode != null){
 			pointednode.cur_X = mouseX;
 			pointednode.cur_Y = mouseY;
 		}
 	}
-	
+	// mouse released
 	public void mouseReleased(){
+		// if there is no node be pressed, do nothing.
+		// if there is a node be pressed, consider it's position.
+		// if it is drage in the circle, put on the circle.
+		// otherwise, return to it's original position.
 		if(pointednode != null){
 			if(dist(pointednode.cur_X, pointednode.cur_Y, 575, 340) < 260){
 				pointednode.activate(true);
@@ -179,6 +190,7 @@ public class MainApplet extends PApplet {
 			}
 			rearrange();
 		}
+		// clear pressed node
 		pointednode = null;
 	}
 	

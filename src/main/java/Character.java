@@ -19,7 +19,7 @@ public class Character {
 	private ArrayList<Integer> scenes;
 	private boolean activated;
 	private String name;
-	
+	// initial character
 	public Character(MainApplet parent, String name, int color, float x, float y){
 		this.scenes = new ArrayList<Integer>();
 		this.targets = new ArrayList<Character>();
@@ -32,7 +32,7 @@ public class Character {
 		this.cur_X = x;
 		this.cur_Y = y;
 	}
-
+	
 	public void display(){
 		this.parent.noStroke();
 		this.parent.fill(color);
@@ -52,37 +52,37 @@ public class Character {
            }
        }
 	}
-	
+	// set characters' targets and their relationship value
 	public void addTarget(Character target,Integer value){
 		this.targets.add(target);
 		this.scenes.add(value);
 	}
-	
+	// get characters' targets
 	public ArrayList<Character> getTargets(){
 		return this.targets;
 	}
-	
+	// set character's position
 	public void setPos(float x, float y){
 		this.cur_X = x;
 		this.cur_Y = y;
 	}
-	
+	// set whether the node is put on the circle
 	public void activate(boolean b){
 		this.activated = b;
 	}
-	
+	// get whether the node is put on the circle
 	public boolean checkActivated(){
 		return activated;
 	}
-	
+	// get character's original X point
 	public float getOriPosX(){
 		return ori_X;
 	}
-	
+	// get character's original Y point
 	public float getOriPosY(){
 		return ori_Y;
 	}
-	
+	// get character's name
 	public String getName(){
 		return name;
 	}
