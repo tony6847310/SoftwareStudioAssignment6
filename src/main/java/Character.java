@@ -1,7 +1,6 @@
 package main.java;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
 * This class is used to store states of the characters in the program.
@@ -15,11 +14,11 @@ public class Character {
 	private float x,y;
 	private float radius = 50;
 	private ArrayList<Character> targets;
-	public HashMap<String, Integer> scenes;
+	public ArrayList<Integer> scenes;
 	public String name;
 	
 	public Character(MainApplet parent, String name, int color, float x, float y){
-		this.scenes = new HashMap<String, Integer>();
+		this.scenes = new ArrayList<Integer>();
 		this.targets = new ArrayList<Character>();
 		this.parent = parent;
 		this.name = name;
@@ -33,8 +32,9 @@ public class Character {
 		this.parent.ellipse(x, y, radius, radius);
 	}
 	
-	public void addTarget(Character target){
+	public void addTarget(Character target,Integer value){
 		this.targets.add(target);
+		this.scenes.add(value);
 	}
 	
 	public ArrayList<Character> getTargets(){
