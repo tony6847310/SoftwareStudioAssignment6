@@ -5,6 +5,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 import controlP5.ControlP5;
 import ddf.minim.Minim;
+import ddf.minim.AudioPlayer;
 import de.looksgood.ani.Ani;
 import java.awt.event.KeyEvent;
 
@@ -31,6 +32,7 @@ public class MainApplet extends PApplet {
 	private boolean pointingnode;
 	private Character pointednode, pointingnodebutpressed;
 	private Minim mn;
+	private AudioPlayer bgm;
 	private ControlP5 cp;
 	private Ani ani;
 	
@@ -45,6 +47,9 @@ public class MainApplet extends PApplet {
 		cp.addButton("addAll").setPosition(900, 100).setSize(200, 75).setLabel("Add all");
 		cp.addButton("clear").setPosition(900, 200).setSize(200, 75).setLabel("Clear");
 		Ani.init(this);
+		mn = new Minim(this);
+		bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
+		bgm.play();
 	}
 
 	public void draw() {
