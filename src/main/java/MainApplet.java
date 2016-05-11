@@ -21,19 +21,19 @@ public class MainApplet extends PApplet {
 	private String fileNameLeft = "starwars-episode-";
 	private String fileNameRight = "-interactions.json";
 	private final static int width = 1200, height = 650;
-	/* 
-	 * Modified by Tony
-	 */
+	//arrays to store all data 
 	private JSONObject[] content = new JSONObject[8];
 	private JSONArray[] nodes = new JSONArray[8];
 	private JSONArray[] links = new JSONArray[8];
+	//array list to store character data
 	private ArrayList<Character> characters;
+	//current episode
 	private int episode = 1;
+	//detect if mouse is pointing on node
 	private boolean pointingnode;
 	private Character pointednode, pointingnodebutpressed;
 	private Minim mn;
     private AudioPlayer bgm;
-	private AudioPlayer bgm;
 	private ControlP5 cp;
 	private Ani ani;
 	
@@ -42,15 +42,15 @@ public class MainApplet extends PApplet {
 		
 		size(width, height);
 		smooth();
+		//load all the data
 		loadData();
 		loadEpisode();
+		//add buttons
 		cp = new ControlP5(this);
 		cp.addButton("addAll").setPosition(900, 100).setSize(200, 75).setLabel("Add all");
 		cp.addButton("clear").setPosition(900, 200).setSize(200, 75).setLabel("Clear");
 		Ani.init(this);
-        mn = new Minim(this);
-        bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
-        bgm.play();
+		//start playing bgm
 		mn = new Minim(this);
 		bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
 		bgm.play();
@@ -77,6 +77,7 @@ public class MainApplet extends PApplet {
 				ani = Ani.to(c, (float)0.5, "radius", c.radius);
 			}
 		}
+		//check if mouse is pointing on a node
 		for(Character c: this.characters){
 			if(dist(c.cur_X, c.cur_Y, mouseX, mouseY) < c.radius){
 				pointingnode = true;
@@ -86,7 +87,7 @@ public class MainApplet extends PApplet {
 				pointingnode = false;
 			}
 		}
-		
+		//if mouse is hovering on a node
 		if(pointingnodebutpressed != null){
 			if(dist(pointingnodebutpressed.cur_X, pointingnodebutpressed.cur_Y, mouseX, mouseY) < pointingnodebutpressed.radius){
 				ani = Ani.to(pointingnodebutpressed, (float)0.5, "radius", 30);
@@ -144,10 +145,10 @@ public class MainApplet extends PApplet {
            episode = 6;
        else if(keyCode == KeyEvent.VK_7)
            episode = 7;
-      
+      //reload data after changing
        loadEpisode();
 	}
- 
+	//button for adding all the characters
 	public void addAll() {
 		for(Character c: characters) {
 			c.activate(true);
@@ -155,14 +156,13 @@ public class MainApplet extends PApplet {
 		
 		rearrange();
 	}
-	
+	//button for clearing nodes on the circle
 	public void clear() {
 		for(Character c: characters) {
 			c.activate(false);
 			ani = Ani.to(c, (float)1, "cur_X", c.getOriPosX());
 			ani = Ani.to(c, (float)1, "cur_Y", c.getOriPosY());
 		}
-		//rearrange();
 	}
 	// mouse pressed
 	public void mousePressed(){
@@ -182,7 +182,7 @@ public class MainApplet extends PApplet {
 	public void mouseReleased(){
 		// if there is no node be pressed, do nothing.
 		// if there is a node be pressed, consider it's position.
-		// if it is drage in the circle, put on the circle.
+		// if it is dragged in the circle, put on the circle.
 		// otherwise, return to it's original position.
 		if(pointednode != null){
 			if(dist(pointednode.cur_X, pointednode.cur_Y, 575, 340) < 260){
@@ -197,18 +197,20 @@ public class MainApplet extends PApplet {
 		// clear pressed node
 		pointednode = null;
 	}
-	
+	//arrange nodes to the right spot depending on it's activated(be in circle) or not 
 	private void rearrange(){
 		int count = 0;
 		float angle = 0;
 		
 		for(Character c : characters){
+			//count the total amount of activated nodes and divide the circle
+			//set the nodes' position to its original one if it's not activated 
 			if(c.checkActivated())
 				count++;
 			else
 				c.setPos(c.getOriPosX(), c.getOriPosY());
 		}
-		
+		//use trigonometric function to calculate new positions in the circle
 		for (Character c : characters) {
 			float x,y;
 			if (c.checkActivated()) {
