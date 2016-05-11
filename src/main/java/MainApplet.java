@@ -3,6 +3,10 @@ package main.java;
 import processing.core.PApplet;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
+import controlP5.ControlP5;
+import ddf.minim.Minim;
+import de.looksgood.ani.Ani;
+
 import java.util.*;
 
 /**
@@ -14,8 +18,6 @@ public class MainApplet extends PApplet{
 	private String path = "main/resources/";
 	private String fileNameLeft = "starwars-episode-";
 	private String fileNameRight = "-interactions.json";
-	//private String file = "starwars-episode-1-interactions.json";
-	
 	private final static int width = 1200, height = 650;
 	/* 
 	 * Modified by Tony
@@ -26,6 +28,10 @@ public class MainApplet extends PApplet{
 	private ArrayList<Character> characters;
 	private int episode = 1;
 	
+	private Minim mn;
+	private ControlP5 cp;
+	private Ani ani;
+	
 	public void setup() {
 		characters = new ArrayList<Character>();
 		
@@ -33,15 +39,28 @@ public class MainApplet extends PApplet{
 		smooth();
 		loadData();
 		loadEpisode();
+		cp = new ControlP5(this);
+		cp.addButton("addAll").setPosition(900, 100).setSize(200, 75).setLabel("Add all");
+		cp.addButton("clear").setPosition(900, 200).setSize(200, 75).setLabel("Clear");
+		Ani.init(this);
 	}
 
 	public void draw() {
 		background(255);
-		
-		noStroke();
+		//draw the circle
+		fill(255);
+		stroke(38, 58, 109);
+		strokeWeight(5);
+		ellipse(575, 340, 520, 520);
+		//display text
+		fill(100, 50, 25);
+		textSize(26);
+		text("Star Wars episode" + Integer.toString(episode), 450, 70);
+		//draw character nodes
 		for(Character c: this.characters){
 			c.display();
 		}
+		
 	}
 
 	private void loadData(){
@@ -58,9 +77,9 @@ public class MainApplet extends PApplet{
 		characters.clear();
 		for(int i=0 ; i<nodes[episode].size() ; i++){
 			JSONObject node = nodes[episode].getJSONObject(i);
-			int color = unhex(node.getString("colour").replace("#", ""));
+			int color = unhex(node.getString("colour").substring(1));
 			//convert hex string to int
-			characters.add(new Character(this, node.getString("name"), color, i%4*55 +50, i/4*55 + 50));
+			characters.add(new Character(this, node.getString("name"), color, i%4*60 +50, i/4*60 + 50));
 			//add 4 character each row
 		}
 		
@@ -71,4 +90,40 @@ public class MainApplet extends PApplet{
 		}
 	}
 
+	public void addAll() {
+		for(Character c: characters) {
+			c.activate(true);
+		}
+		
+		rearrange();
+	}
+	
+	public void clear() {
+		for(Character c: characters) {
+			c.activate(false);
+		}
+		rearrange();
+	}
+	
+	private void rearrange(){
+		int count = 0;
+		float angle = 0;
+		
+		for(Character c : characters){
+			if(c.checkActivated())
+				count++;
+			else
+				c.setPos(c.getOriPosX(), c.getOriPosY());
+		}
+		
+		for (Character c : characters) {
+			float x,y;
+			if (c.checkActivated()) {
+				x = 575 + 260 * cos(angle);
+				y = 340 - 260 * sin(angle);
+				c.setPos(x, y);
+				angle += (TWO_PI / (float) count);
+			}
+		}
+	}
 }
