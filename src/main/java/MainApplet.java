@@ -12,15 +12,16 @@ import java.util.*;
 @SuppressWarnings("serial")
 public class MainApplet extends PApplet{
 	private String path = "main/resources/";
-	private String file = "starwars-episode-1-interactions.json";
+	private String fileNameLeft = "starwars-episode-";
+	private String fileNameRight = "-interactions.json";
 	
 	private final static int width = 1200, height = 650;
 	/* 
 	 * Modified by Tony
 	 */
-	private JSONObject ep1;
-	private JSONArray ep1_nodes;
-	private JSONArray ep1_links;
+	private JSONObject[] content;
+	private JSONArray[] nodes;
+	private JSONArray[] links;
 	private ArrayList<Character> characters;
 	
 	public void setup() {
@@ -41,10 +42,11 @@ public class MainApplet extends PApplet{
 	}
 
 	private void loadData(){
-		ep1 = loadJSONObject(path + file);
-		ep1_nodes = ep1.getJSONArray("nodes");
-		ep1_links = ep1.getJSONArray("links");
-		
+		for(int i=0; i<7; i++){
+			content[i] = loadJSONObject(path + fileNameLeft + i + fileNameRight);
+			nodes[i] = content[i].getJSONArray("nodes");
+			links[i] = content[i].getJSONArray("links");
+		}
 		for(int i=0 ; i<ep1_nodes.size(); i++){
 			JSONObject node = ep1_nodes.getJSONObject(i);
 			int color = unhex(node.getString("colour").substring(1, 8));
