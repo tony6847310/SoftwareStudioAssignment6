@@ -87,10 +87,11 @@ public class MainApplet extends PApplet {
 				textSize(20);
 				text(pointingnodebutpressed.getName(), mouseX+10, mouseY+5);
 			}
+			else{
+				ani = Ani.to(pointingnodebutpressed, (float)0.5, "radius", 25);
+			}
 		}
-		else{
-			ani = Ani.to(pointingnodebutpressed, (float)0.5, "radius", 25);
-		}
+		
 	}
 
 	private void loadData(){

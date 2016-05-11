@@ -34,6 +34,7 @@ public class Character {
 	}
 
 	public void display(){
+		this.parent.noStroke();
 		this.parent.fill(color);
 		this.parent.ellipse(cur_X, cur_Y, radius*2 , radius*2 );
 		//If this node is activated , draw connect lines with other nodes
