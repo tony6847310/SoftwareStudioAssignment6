@@ -33,6 +33,7 @@ public class MainApplet extends PApplet {
 	private Character pointednode, pointingnodebutpressed;
 	private Minim mn;
     private AudioPlayer bgm;
+	private AudioPlayer bgm;
 	private ControlP5 cp;
 	private Ani ani;
 	
@@ -50,6 +51,9 @@ public class MainApplet extends PApplet {
         mn = new Minim(this);
         bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
         bgm.play();
+		mn = new Minim(this);
+		bgm = mn.loadFile(this.getClass().getResource("/main/resources/Ratatat - Loud Pipes.mp3").getPath());
+		bgm.play();
 	}
 
 	public void draw() {
