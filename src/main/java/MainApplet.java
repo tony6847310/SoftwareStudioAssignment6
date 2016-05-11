@@ -170,8 +170,8 @@ public class MainApplet extends PApplet {
 				pointednode.activate(true);
 			} else {
 				pointednode.activate(false);
-				ani = Ani.to(pointednode, (float)0.5, "cur_X", c.getOriPosX());
-				ani = Ani.to(pointednode, (float)0.5, "cur_Y", c.getOriPosY());
+				ani = Ani.to(pointednode, (float)0.5, "cur_X", pointednode.getOriPosX());
+				ani = Ani.to(pointednode, (float)0.5, "cur_Y", pointednode.getOriPosY());
 			}
 			rearrange();
 		}
