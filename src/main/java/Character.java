@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class Character {
 	
 	private MainApplet parent;
-	
+	private static final float ellipse_X = 575, ellipse_Y = 340;
+
 	private int color;
 	private float ori_X,ori_Y;
 	public float cur_X,cur_Y;
@@ -35,6 +36,20 @@ public class Character {
 	public void display(){
 		this.parent.fill(color);
 		this.parent.ellipse(cur_X, cur_Y, radius*2 , radius*2 );
+		//If this node is activated , draw connect lines with other nodes
+        if(activated){
+           for(int i=0 ; i<targets.size(); i++){
+               if(targets.get(i).checkActivated()){
+                   float s1 = (ellipse_X + (cur_X + targets.get(i).cur_X) / 2) / 2;
+                   float s2 = (ellipse_Y + (cur_Y + targets.get(i).cur_Y) / 2) / 2;
+                   parent.noFill();
+                   parent.stroke(51, 51, 51);
+                   parent.strokeWeight(scenes.get(i) / 10 + 1);
+                   parent.bezier(cur_X, cur_Y, s1, s2, s1, s2, 
+                   targets.get(i).cur_X, targets.get(i).cur_Y);
+               }
+           }
+       }
 	}
 	
 	public void addTarget(Character target,Integer value){
